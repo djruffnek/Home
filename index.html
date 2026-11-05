@@ -8,41 +8,19 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Figtree:wght@400;500&display=swap">
 <style>
-  /* Layout: identity column on the left, stacked link tiles on the right; one column on phones. */
+  /* Synthwave: fixed sunset sky, striped sun and a moving neon grid behind a left identity column and right link tiles. Single dark look by design. */
   :root {
-    --bg: #eceff6;
-    --surface: #ffffff;
-    --ink: #0d1120;
-    --muted: #5a6280;
-    --accent: #3b46f1;
-    --on-accent: #ffffff;
-    --line: #d7dcea;
-    color-scheme: light;
+    --bg: #0b0220;
+    --surface: rgba(20, 7, 48, 0.78);
+    --ink: #f6efff;
+    --muted: #cbbaec;
+    --accent: #ff3ea5;
+    --on-accent: #14042e;
+    --line: rgba(255, 120, 220, 0.38);
+    --neon: #19e3ff;
 
     --font-display: "Sora", "Helvetica Neue", Arial, sans-serif;
     --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-mono: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #0a0d18;
-      --surface: #141829;
-      --ink: #eaedf8;
-      --muted: #98a0be;
-      --accent: #8c95ff;
-      --on-accent: #0a0d18;
-      --line: #252a42;
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #0a0d18;
-    --surface: #141829;
-    --ink: #eaedf8;
-    --muted: #98a0be;
-    --accent: #8c95ff;
-    --on-accent: #0a0d18;
-    --line: #252a42;
     color-scheme: dark;
   }
 
@@ -60,6 +38,64 @@
     min-height: 100vh;
   }
 
+  /* Background scene */
+  .synth {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background: linear-gradient(180deg, #0b0220 0%, #1f0848 32%, #4a1478 50%, #ff3ea5 62%, #12033a 62%, #0b0220 100%);
+  }
+  .sun {
+    position: absolute;
+    left: 50%;
+    bottom: 38%;
+    width: clamp(220px, 42vmin, 440px);
+    aspect-ratio: 1;
+    max-width: 100%;
+    transform: translateX(-50%) translateY(50%);
+    border-radius: 50%;
+    background: linear-gradient(180deg, #ffe66d 0%, #ff9a3c 40%, #ff3ea5 80%);
+    clip-path: inset(0 0 50% 0);
+    -webkit-mask-image: linear-gradient(180deg, #000 0 30%, transparent 30% 33%, #000 33% 38%, transparent 38% 42%, #000 42% 46%, transparent 46% 51%, #000 51%);
+    mask-image: linear-gradient(180deg, #000 0 30%, transparent 30% 33%, #000 33% 38%, transparent 38% 42%, #000 42% 46%, transparent 46% 51%, #000 51%);
+  }
+  .grid {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 38%;
+    overflow: hidden;
+    perspective: 800px;
+    perspective-origin: 50% 0;
+  }
+  .grid::before {
+    content: "";
+    position: absolute;
+    left: -60%;
+    right: -60%;
+    top: 0;
+    height: 200%;
+    transform-origin: 50% 0;
+    transform: rotateX(70deg);
+    background-image:
+      linear-gradient(rgba(25, 227, 255, 0.8) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(255, 62, 165, 0.8) 2px, transparent 2px);
+    background-size: 72px 72px;
+    animation: drift 2.4s linear infinite;
+  }
+  .grid::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #12033a 0%, rgba(18, 3, 58, 0) 55%);
+  }
+  @keyframes drift {
+    from { background-position: 0 0, 0 0; }
+    to { background-position: 0 72px, 0 72px; }
+  }
+
   .wrap {
     max-width: 1040px;
     margin-inline: auto;
@@ -72,6 +108,8 @@
     .who { position: sticky; top: 48px; }
   }
 
+  .who { text-shadow: 0 1px 14px rgba(11, 2, 32, 0.9); }
+
   .mark {
     width: 72px; height: 72px;
     border-radius: 50%;
@@ -82,6 +120,8 @@
     font-weight: 800;
     font-size: 1.6rem;
     letter-spacing: -0.02em;
+    box-shadow: 0 0 32px rgba(255, 62, 165, 0.65);
+    text-shadow: none;
   }
 
   h1 {
@@ -92,6 +132,7 @@
     line-height: 0.95;
     letter-spacing: -0.04em;
     text-wrap: balance;
+    text-shadow: 0 0 28px rgba(255, 62, 165, 0.55), 0 1px 14px rgba(11, 2, 32, 0.9);
   }
   .role {
     margin: 22px 0 0;
@@ -123,6 +164,8 @@
     gap: 16px;
     padding: 20px 22px;
     background: var(--surface);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     border: 1px solid var(--line);
     border-radius: 14px;
     color: var(--ink);
@@ -140,7 +183,6 @@
   .links .handle {
     display: block;
     margin-top: 4px;
-    font-family: var(--font-mono);
     font-size: 0.92rem;
     color: var(--muted);
     overflow-wrap: anywhere;
@@ -162,23 +204,29 @@
   .links a:focus-visible .handle { color: var(--on-accent); }
   .links a:hover svg,
   .links a:focus-visible svg { transform: translate(3px, -3px); }
-  .links a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .links a:focus-visible { outline: 3px solid var(--neon); outline-offset: 3px; }
 
   footer {
     max-width: 1040px;
     margin: 56px auto 0;
-    font-family: var(--font-mono);
     font-size: 0.9rem;
     color: var(--muted);
+    text-shadow: 0 1px 10px rgba(11, 2, 32, 0.9);
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .grid::before { animation: none; }
     .links a, .links svg, .links .handle { transition: none; }
     .links a:hover, .links a:focus-visible { transform: none; }
   }
 </style>
 </head>
 <body>
+
+<div class="synth" aria-hidden="true">
+  <div class="sun"></div>
+  <div class="grid"></div>
+</div>
 
 <main class="wrap">
   <header class="who">
