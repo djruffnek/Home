@@ -442,6 +442,21 @@
     .ride .car { animation: none; }
     .ride:hover, .ride:focus-visible { transform: none; }
   }
+
+  /* Desktop: car sits dead center on the grid road */
+  @media (min-width: 860px) and (min-height: 700px) {
+    .ride {
+      position: fixed;
+      left: 50%;
+      bottom: 16vh;
+      width: clamp(120px, 11vw, 170px);
+      transform: translateX(-50%);
+    }
+    .ride:hover, .ride:focus-visible { transform: translateX(-50%) translateY(-4px); }
+  }
+  @media (min-width: 860px) and (min-height: 700px) and (prefers-reduced-motion: reduce) {
+    .ride:hover, .ride:focus-visible { transform: translateX(-50%); }
+  }
 </style>
 </head>
 <body>
