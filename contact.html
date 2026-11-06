@@ -443,7 +443,7 @@
   @keyframes vhs-blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
 
   /* Heading glitch: a short RGB split every few seconds */
-  h1 { animation: vhs-glitch 6s infinite; }
+  h1 { animation: vhs-glitch 8s infinite; }
   @keyframes vhs-glitch {
     0%, 91%, 100% { transform: none; }
     92% { transform: translate(-4px, 0) skewX(-6deg); text-shadow: 4px 0 #19e3ff, -4px 0 #ff3ea5; }
@@ -465,7 +465,7 @@
 <div class="vhs" aria-hidden="true"></div>
 
 <div class="topbar">
-  <div class="osd" aria-hidden="true"><span class="rec">REC</span><span id="tc">00:00:00:00</span></div>
+  <div class="osd" aria-hidden="true"><span class="rec">REC</span><span class="play">PLAY &#9654;</span><span id="tc">00:00:00:00</span></div>
   <details class="menu">
     <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu</summary>
     <nav aria-label="Site">
