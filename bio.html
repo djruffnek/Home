@@ -440,6 +440,24 @@
   .synth .tw2 { animation: tw 4.6s ease-in-out infinite 1.1s; }
   .synth .tw3 { animation: tw 6.1s ease-in-out infinite 2.3s; }
   /* end scene css */
+
+  /* jet css */
+  #jet-trail { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; }
+  .jet {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    display: none;
+    pointer-events: none;
+    will-change: transform;
+    filter: drop-shadow(0 0 6px rgba(25, 227, 255, 0.6));
+  }
+  .jet svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .jet .flame { transform-box: view-box; transform-origin: 7px 22px; animation: jet-flame 0.12s linear infinite alternate; }
+  @keyframes jet-flame { from { transform: scaleX(0.65); } to { transform: scaleX(1.25); } }
+  @media (prefers-reduced-motion: reduce) { .jet .flame { animation: none; } }
+  /* end jet css */
 </style>
 </head>
 <body>
@@ -593,5 +611,146 @@
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(tick, 100);
   })();
 </script>
+<!--jet-->
+<canvas id="jet-trail" aria-hidden="true"></canvas>
+<div class="jet" id="jet" aria-hidden="true">
+  <svg viewBox="0 0 80 44" focusable="false">
+    <defs>
+      <linearGradient id="jf" x1="1" y1="0" x2="0" y2="0">
+        <stop offset="0" stop-color="#ffe66d"/>
+        <stop offset="0.5" stop-color="#ff9a3c"/>
+        <stop offset="1" stop-color="#ff3ea5" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <g class="flame"><path d="M7 19.5 L-12 22 L7 24.5 Z" fill="url(#jf)"/></g>
+    <path d="M52 18 L25 1.5 L15 2.5 L27 18 Z" fill="#2a0a5e" stroke="#19e3ff" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M52 26 L25 42.5 L15 41.5 L27 26 Z" fill="#2a0a5e" stroke="#19e3ff" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M14 18 L6 8 L3 9 L8 18 Z" fill="#2a0a5e" stroke="#19e3ff" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M14 26 L6 36 L3 35 L8 26 Z" fill="#2a0a5e" stroke="#19e3ff" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M79 22 L58 17.5 L16 16.5 L5 20 V24 L16 27.5 L58 26.5 Z" fill="#14042e" stroke="#19e3ff" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M30 10.5 L40 18 M30 33.5 L40 26" stroke="#ff3ea5" stroke-width="1.4" stroke-linecap="round"/>
+    <ellipse cx="57" cy="22" rx="8" ry="2.6" fill="#19e3ff" opacity="0.85"/>
+    <circle cx="6" cy="22" r="2.6" fill="#ff3ea5"/>
+  </svg>
+</div>
+<script>
+  (function () {
+    var el = document.getElementById("jet"), cv = document.getElementById("jet-trail");
+    if (!el || !cv || !cv.getContext) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var ctx = cv.getContext("2d"), vw = 0, vh = 0;
+    function size() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      vw = window.innerWidth; vh = window.innerHeight;
+      cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    size();
+    window.addEventListener("resize", size);
+    function rnd(a, b) { return a + Math.random() * (b - a); }
+    function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+
+    function edgePoint(edge) {
+      var m = 110;
+      if (edge === 0) return { x: -m, y: rnd(vh * 0.08, vh * 0.75) };
+      if (edge === 1) return { x: vw + m, y: rnd(vh * 0.08, vh * 0.75) };
+      if (edge === 2) return { x: rnd(vw * 0.1, vw * 0.9), y: -m };
+      return { x: rnd(vw * 0.1, vw * 0.9), y: vh + m };
+    }
+    function bez(p, t) {
+      var u = 1 - t;
+      return {
+        x: u * u * u * p[0].x + 3 * u * u * t * p[1].x + 3 * u * t * t * p[2].x + t * t * t * p[3].x,
+        y: u * u * u * p[0].y + 3 * u * u * t * p[1].y + 3 * u * t * t * p[2].y + t * t * t * p[3].y
+      };
+    }
+    function dbez(p, t) {
+      var u = 1 - t;
+      return {
+        x: 3 * u * u * (p[1].x - p[0].x) + 6 * u * t * (p[2].x - p[1].x) + 3 * t * t * (p[3].x - p[2].x),
+        y: 3 * u * u * (p[1].y - p[0].y) + 6 * u * t * (p[2].y - p[1].y) + 3 * t * t * (p[3].y - p[2].y)
+      };
+    }
+    function startFlight() {
+      var e0 = pick([0, 0, 1, 1, 2, 3]), e1 = e0;
+      while (e1 === e0) e1 = pick([0, 1, 2, 3]);
+      var p = [
+        edgePoint(e0),
+        { x: rnd(-0.1 * vw, 1.1 * vw), y: rnd(-0.1 * vh, 1.1 * vh) },
+        { x: rnd(-0.1 * vw, 1.1 * vw), y: rnd(-0.1 * vh, 1.1 * vh) },
+        edgePoint(e1)
+      ];
+      var table = [0], prev = p[0], N = 140, i, q;
+      for (i = 1; i <= N; i++) { q = bez(p, i / N); table.push(table[i - 1] + Math.hypot(q.x - prev.x, q.y - prev.y)); prev = q; }
+      var L = table[N];
+      var w = Math.min(110, Math.max(60, vw * 0.085)) * rnd(0.75, 1.25);
+      var roll = Math.random() < 0.35;
+      return {
+        p: p, table: table, N: N, L: L, s: 0, w: w, h: w * 44 / 80,
+        speed: rnd(0.2, 0.34) * Math.max(vw, 520),
+        rollAt: rnd(0.2, 0.65) * L, rollLen: rnd(160, 260), roll: roll
+      };
+    }
+    function tAt(f, s) {
+      var lo = 0, hi = f.N;
+      while (hi - lo > 1) { var mid = (lo + hi) >> 1; if (f.table[mid] <= s) lo = mid; else hi = mid; }
+      var span = f.table[hi] - f.table[lo] || 1;
+      return (lo + (s - f.table[lo]) / span) / f.N;
+    }
+
+    var flight = null, trail = [], last = performance.now(), idleUntil = last + rnd(2500, 6000);
+    function draw() {
+      ctx.clearRect(0, 0, vw, vh);
+      var n = trail.length;
+      if (n < 2) return;
+      ctx.lineCap = "round";
+      for (var i = 1; i < n; i++) {
+        var k = i / n, r = Math.round(255 - 230 * k), g = Math.round(62 + 165 * k), b = Math.round(165 + 90 * k);
+        var wd = 1 + k * 5 * (trail.scale || 1);
+        ctx.strokeStyle = "rgba(" + r + "," + g + "," + b + "," + (0.2 * k) + ")";
+        ctx.lineWidth = wd * 2.8;
+        ctx.beginPath(); ctx.moveTo(trail[i - 1].x, trail[i - 1].y); ctx.lineTo(trail[i].x, trail[i].y); ctx.stroke();
+        ctx.strokeStyle = "rgba(" + r + "," + g + "," + b + "," + (0.75 * k) + ")";
+        ctx.lineWidth = wd;
+        ctx.beginPath(); ctx.moveTo(trail[i - 1].x, trail[i - 1].y); ctx.lineTo(trail[i].x, trail[i].y); ctx.stroke();
+      }
+    }
+    function frame(now) {
+      var dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      if (flight) {
+        flight.s += flight.speed * dt;
+        if (flight.s >= flight.L) {
+          flight = null;
+          el.style.display = "none";
+          idleUntil = now + rnd(3000, 11000);
+        } else {
+          var t = tAt(flight, flight.s), pt = bez(flight.p, t), d = dbez(flight.p, t), a = Math.atan2(d.y, d.x);
+          var sy = 1;
+          if (flight.roll && flight.s > flight.rollAt && flight.s < flight.rollAt + flight.rollLen) {
+            sy = Math.cos(((flight.s - flight.rollAt) / flight.rollLen) * Math.PI * 2);
+          }
+          el.style.transform = "translate(" + (pt.x - flight.w / 2) + "px," + (pt.y - flight.h / 2) + "px) rotate(" + a + "rad) scaleY(" + sy + ")";
+          trail.push({ x: pt.x - Math.cos(a) * flight.w * 0.45, y: pt.y - Math.sin(a) * flight.w * 0.45 });
+          trail.scale = flight.w / 90;
+          if (trail.length > 70) trail.shift();
+        }
+      } else {
+        if (trail.length) { trail.shift(); if (trail.length) trail.shift(); }
+        if (now >= idleUntil && !document.hidden) {
+          flight = startFlight();
+          el.style.width = flight.w + "px";
+          el.style.height = flight.h + "px";
+          el.style.display = "block";
+          trail.length = 0;
+        }
+      }
+      draw();
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+</script>
+<!--/jet-->
 </body>
 </html>
