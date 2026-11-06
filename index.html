@@ -409,6 +409,25 @@
   @media (prefers-reduced-motion: reduce) {
     .vhs::before, .vhs::after, .osd .rec::before, h1 { animation: none; }
   }
+
+  /* Backstage link */
+  .ride {
+    display: block;
+    width: clamp(150px, 22vw, 200px);
+    margin-top: 30px;
+    filter: drop-shadow(0 0 14px rgba(255, 62, 165, 0.55));
+    transition: transform 0.25s ease, filter 0.25s ease;
+  }
+  .ride svg { display: block; width: 100%; height: auto; }
+  .ride:hover, .ride:focus-visible {
+    transform: translateX(10px);
+    filter: drop-shadow(0 0 20px rgba(25, 227, 255, 0.8));
+  }
+  .ride:focus-visible { outline: 3px solid var(--neon); outline-offset: 6px; border-radius: 8px; }
+  @media (prefers-reduced-motion: reduce) {
+    .ride { transition: none; }
+    .ride:hover, .ride:focus-visible { transform: none; }
+  }
 </style>
 </head>
 <body>
@@ -436,6 +455,26 @@
     <h1>Ruffnek</h1>
     <p class="role">Open Format Video DJ &amp; Remixer</p>
     <p class="bio">Listen, follow and catch the latest on the platforms below.</p>
+    <a class="ride" href="backstage-7k2m.html" aria-label="Backstage" title="Backstage">
+      <svg viewBox="0 0 220 74" role="img" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="ride-body" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#7a1fa2"/>
+            <stop offset="0.55" stop-color="#ff3ea5"/>
+            <stop offset="1" stop-color="#ff9a3c"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="110" cy="64" rx="98" ry="6" fill="#19e3ff" opacity="0.28"/>
+        <path d="M8 52 L10 38 L24 30 L62 26 L100 19 L134 20 L170 33 L206 40 L212 48 L208 52 Z" fill="url(#ride-body)" stroke="#19e3ff" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M70 32 L104 22 L132 23 L160 34 Z" fill="#14042e" stroke="#19e3ff" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M10 42 L16 42" stroke="#ff2d4a" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M200 42 L209 44" stroke="#ffe66d" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="56" cy="52" r="12" fill="#14042e" stroke="#19e3ff" stroke-width="1.6"/>
+        <circle cx="56" cy="52" r="5" fill="#ff3ea5"/>
+        <circle cx="168" cy="52" r="12" fill="#14042e" stroke="#19e3ff" stroke-width="1.6"/>
+        <circle cx="168" cy="52" r="5" fill="#ff3ea5"/>
+      </svg>
+    </a>
   </header>
 
   <ul class="links">
