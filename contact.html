@@ -392,14 +392,14 @@
     pointer-events: none;
     overflow: hidden;
     background:
-      repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px),
-      radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
+      repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.165) 0 1px, transparent 1px 3px),
+      radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.34) 100%);
   }
   .vhs::before {
     content: "";
     position: absolute;
     inset: -50%;
-    opacity: 0.09;
+    opacity: 0.0675;
     mix-blend-mode: screen;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     animation: vhs-noise 0.6s steps(6) infinite;
@@ -411,7 +411,7 @@
     right: 0;
     top: 0;
     height: 14vh;
-    background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.07) 45%, rgba(25, 227, 255, 0.1) 55%, transparent);
+    background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.0525) 45%, rgba(25, 227, 255, 0.075) 55%, transparent);
     animation: vhs-track 8s linear infinite;
   }
   @keyframes vhs-noise {
@@ -439,7 +439,7 @@
     font-size: 0.95rem;
     letter-spacing: 0.08em;
     color: var(--ink);
-    text-shadow: 2px 0 rgba(255, 62, 165, 0.7), -2px 0 rgba(25, 227, 255, 0.7);
+    text-shadow: 1.5px 0 rgba(255, 62, 165, 0.525), -1.5px 0 rgba(25, 227, 255, 0.525);
   }
   .osd .rec { display: inline-flex; align-items: center; gap: 8px; }
   .osd .rec::before {
@@ -457,9 +457,9 @@
   h1 { animation: vhs-glitch 8s infinite; }
   @keyframes vhs-glitch {
     0%, 91%, 100% { transform: none; }
-    92% { transform: translate(-4px, 0) skewX(-6deg); text-shadow: 4px 0 #19e3ff, -4px 0 #ff3ea5; }
-    94% { transform: translate(5px, 1px) skewX(5deg); text-shadow: -5px 0 #19e3ff, 5px 0 #ff3ea5; }
-    96% { transform: translate(-2px, -1px); text-shadow: 3px 0 #19e3ff, -3px 0 #ff3ea5; }
+    92% { transform: translate(-3px, 0) skewX(-4.5deg); text-shadow: 3px 0 #19e3ff, -3px 0 #ff3ea5; }
+    94% { transform: translate(3.75px, 0.75px) skewX(3.75deg); text-shadow: -3.75px 0 #19e3ff, 3.75px 0 #ff3ea5; }
+    96% { transform: translate(-1.5px, -0.75px); text-shadow: 2.25px 0 #19e3ff, -2.25px 0 #ff3ea5; }
     98% { transform: none; }
   }
 
