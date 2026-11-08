@@ -431,7 +431,7 @@
   }
 
   /* Backstage link: car on the grid road */
-  .ride { width: clamp(110px, 16vw, 150px); justify-self: center; }
+  .ride { width: clamp(126px, 18.4vw, 172px); justify-self: center; }
   .ride:hover, .ride:focus-visible { transform: translateY(-4px); }
   .ride .car { animation: ride-bob 0.5s steps(2) infinite alternate; }
   @keyframes ride-bob {
@@ -449,7 +449,7 @@
       position: fixed;
       left: 50%;
       bottom: 16vh;
-      width: clamp(120px, 11vw, 170px);
+      width: clamp(138px, 12.65vw, 195px);
       transform: translateX(-50%);
     }
     .ride:hover, .ride:focus-visible { transform: translateX(-50%) translateY(-4px); }
@@ -524,10 +524,14 @@
         </defs>
         <g class="car">
           <ellipse cx="130" cy="113" rx="36" ry="4" fill="#19e3ff" opacity="0.3"/>
-          <rect x="98" y="107" width="10" height="9" rx="1.5" fill="#14042e" stroke="#19e3ff" stroke-width="1.2"/>
-          <rect x="152" y="107" width="10" height="9" rx="1.5" fill="#14042e" stroke="#19e3ff" stroke-width="1.2"/>
+          <rect x="93" y="103" width="15" height="13" rx="2.5" fill="#14042e" stroke="#19e3ff" stroke-width="1.2"/>
+          <rect x="152" y="103" width="15" height="13" rx="2.5" fill="#14042e" stroke="#19e3ff" stroke-width="1.2"/>
           <path d="M108 95 L115 83 L145 83 L152 95 Z" fill="#14042e" stroke="#19e3ff" stroke-width="1.3" stroke-linejoin="round"/>
           <path d="M118 87 H142" stroke="#19e3ff" stroke-width="0.8" opacity="0.7"/>
+          <path d="M112 90 L112 82 M148 90 L148 82" stroke="#19e3ff" stroke-width="2.2" stroke-linecap="round"/>
+          <rect x="97" y="77" width="3" height="10" rx="1" fill="#14042e" stroke="#19e3ff" stroke-width="1"/>
+          <rect x="160" y="77" width="3" height="10" rx="1" fill="#14042e" stroke="#19e3ff" stroke-width="1"/>
+          <rect x="98" y="78" width="64" height="4.2" rx="1.5" fill="#ff3ea5" stroke="#19e3ff" stroke-width="1.1"/>
           <rect x="99" y="94" width="62" height="16" rx="3" fill="url(#ride-body)" stroke="#19e3ff" stroke-width="1.4"/>
           <rect x="102" y="98" width="17" height="4.5" rx="1" fill="#ff2d4a"/>
           <rect x="141" y="98" width="17" height="4.5" rx="1" fill="#ff2d4a"/>
