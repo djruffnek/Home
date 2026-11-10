@@ -333,6 +333,10 @@
     color: var(--neon);
   }
   .card .credits { max-width: 56ch; margin-top: 10px; font-size: 1rem; }
+  .card .venues { list-style: none; margin: 10px 0 0; padding: 0; max-width: 56ch; display: flex; flex-wrap: wrap; font-size: 0.9rem; line-height: 1.8; color: var(--muted, rgba(255, 240, 246, 0.62)); }
+  .card .venues li { white-space: nowrap; }
+  .card .venues li:not(:last-child)::after { content: "\00b7"; margin: 0 0.6em; color: var(--accent, #ff3ea5); opacity: 0.8; }
+  .card .venues .more { font-style: italic; }
   .back {
     display: inline-block;
     margin-top: 32px;
@@ -600,6 +604,8 @@
     <p class="history">Traveling on tour &amp; sharing the stage with artists such as Snoop Dogg, Xzibit, Digital Underground, The Luniz, Arrested Development, K-Ci &amp; Jojo, Earth Wind &amp; Fire, Parliament/Funkadelic, The Time, The Gap Band, The Dazz Band, Slave, Zapp, Ohio Players, Living Colour, Brides Of Funkenstein and many more - playing in venues ranging from small night clubs to concert venues &amp; performing on stages with crowds varying from 2,000 to 50,000 attendees.</p>
     <h2>Featured remixes</h2>
     <p class="credits">You can find Ruffnek’s remixes featured on remix services such as: Direct Music Service (DMS), TailoredTrax, Culture Shock, Mixshow Ingredients, Smash, Deejay Essentials, Crooklyn Clan &amp; more.</p>
+    <h2>Venues</h2>
+    <ul class="venues" aria-label="Venues Ruffnek has performed at"><li>Bailey’s</li><li>BB King’s</li><li>Billboard Live</li><li>Bourbon Street</li><li>Canyon Inn</li><li>Casey’s</li><li>Chomp</li><li>District Lounge</li><li>Dragonfly Club</li><li>Fitoor (Santa Monica)</li><li>Hacienda On The Lake</li><li>Hard Rock Hotel (Palm Springs)</li><li>Joe’s</li><li>Monte Carlo Casino (Las Vegas)</li><li>Off Campus Pub</li><li>Pechanga Casino</li><li>REM’s Vegas Sports Lounge</li><li>Rembrandt’s / RKB</li><li>The Bowery</li><li>The Key Club</li><li>The Vault 350</li><li>The Viper Room</li><li>Woody’s Wharf</li><li>The Charleston</li><li>The Eliot</li><li>The 80s Bar</li><li>Totally 80s Bar</li><li>That 80s Bar</li><li>Club 80s</li><li>New Wave Bar</li><li>HQ (Huntington Beach)</li><li>Graceland (Huntington Beach)</li><li class="more">&amp; the list goes on</li></ul>
     <a class="back" href="index.html">&larr; Back to home</a>
   </article>
 </div>
